@@ -22,7 +22,7 @@ class Fighting {
         return false; // echo "no miss";
     }
 
-    public function fight($playerOne, $playerTwo, $turn){
+    public function fight($playerOne, $playerTwo, $turn, $turn_count){
         $player1 = ($turn == 1? $playerTwo: $playerOne);
         $player2 = ($turn == 1? $playerOne: $playerTwo);
         $damage = (float) abs($player2->strength - $player1->defence);
@@ -40,6 +40,12 @@ class Fighting {
             }
         }else{
             $log = "$player2->name miss to hit $player1->name, 0 damage. Health remaining $player1->health <br>";
+        }
+        $_SESSION['turns_remaining']--;
+        if( $turn_count <= 0 ){
+            $log = "No more turns, reached the limit of 20";
+            $player1->health = 0;
+            $player2->health = 0;
         }
         return array($log, $player1, $player2);
     }

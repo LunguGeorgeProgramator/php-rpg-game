@@ -20,6 +20,7 @@ $engine = new Engine;
 if(!isset($_POST['attack'])){
     $_SESSION['array_logs'] = [];
     $_SESSION['turn_to_attack'] = 1;
+    $_SESSION['turns_remaining'] = 20;
     $playerOne = new Player($engine->setAtrributes($player->find(1)));
     $playerTwo = new Opponent($engine->setAtrributes($opponent->find(1)));
     $_SESSION['playerOne'] = serialize($playerOne);
@@ -30,7 +31,7 @@ if(!isset($_POST['attack'])){
 }else{
     $playerOne = unserialize($_SESSION['playerOne']);
     $playerTwo = unserialize($_SESSION['playerTwo']);
-    $log = $engine->fight($playerOne, $playerTwo, $_SESSION['turn_to_attack']);
+    $log = $engine->fight($playerOne, $playerTwo, $_SESSION['turn_to_attack'], $_SESSION['turns_remaining']);
     if ($log[0] != null){
         if($log[1])
             $_SESSION[($_SESSION['turn_to_attack'] == 0? 'playerOne' : 'playerTwo')] = serialize($log[1]);
