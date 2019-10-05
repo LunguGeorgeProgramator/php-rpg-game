@@ -23,14 +23,10 @@ class Fighting {
     }
 
     public function fight($playerOne, $playerTwo, $turn){
-
         $player1 = ($turn == 1? $playerTwo: $playerOne);
         $player2 = ($turn == 1? $playerOne: $playerTwo);
-
         $damage = (float) abs($player2->strength - $player1->defence);
-
         $log = "";
-
         if ($player1->health <= 0 || $player2->health <= 0){
             return null;
         }
@@ -45,7 +41,24 @@ class Fighting {
         }else{
             $log = "$player2->name miss to hit $player1->name, 0 damage. Health remaining $player1->health <br>";
         }
-
         return array($log, $player1, $player2);
+    }
+
+    public function checkTurn($playerOne, $playerTwo){
+        $p1Chance = $this->calculateChance($playerOne->luck);
+        $p2Chance =$this->calculateChance($playerTwo->luck);
+        if ($playerOne->speed > $playerTwo->speed){
+            return true;
+        }else if($playerOne->speed == $playerTwo->speed){
+            if($p1Chance && !$p2Chance){
+                return true;
+            }else if (!$p1Chance && $p2Chance){
+                return false;
+            }else if ($p1Chance == $p2Chance){
+                return ($playerOne->luck > $playerTwo->luck? true : false);
+            }
+        }else {
+            return false;
+        }
     }
 }
