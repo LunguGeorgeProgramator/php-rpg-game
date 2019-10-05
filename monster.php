@@ -23,13 +23,15 @@
             return (new DB);
         }
 
-        public function heroDetails($id, $level, $experience, $name){
-            return [
-                'id' => $id,
-                'level' =>  $level,
-                'experience' => $experience,
-                'name' =>  $name
+        public function monsterDetails($row, $id){
+            $details = [
+                'id' => $row["id"],
+                'level' =>  $row["level"],
+                'experience' => $row["experience"],
+                'name' =>  $row["name"]
             ];
+            $attributes =$this->getAttributes($id);
+            return (object) array_merge($details, $attributes);
         }
 
         private function getAttributes($id){
@@ -52,14 +54,7 @@
             $result = $this->setConnectDB()->queryRun("SELECT * FROM monsters where id=" . $id);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    $details = $this->heroDetails(
-                        $row["id"], 
-                        $row["level"], 
-                        $row["experience"],
-                        $row["name"]
-                    );
-                    $attributes =$this->getAttributes($id);
-                    return (object) array_merge($details, $attributes);
+                    return $this->monsterDetails($row, $id);
                 }
             } else {
                 return (object) [];
@@ -71,15 +66,7 @@
             $result = $this->setConnectDB()->queryRun("SELECT * FROM monsters");
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    $details = $this->heroDetails(
-                        $row["id"], 
-                        $row["level"], 
-                        $row["experience"],
-                        $row["name"]
-                    );
-                    $attributes =$this->getAttributes($row["id"]);
-                    $heroAttributes = array_merge($details, $attributes);
-                    array_push( $resultArray, (object) $heroAttributes );      
+                    array_push($resultArray, $this->monsterDetails($row, $row["id"]));      
                 }
             } else {
                 return (object) $resultArray;

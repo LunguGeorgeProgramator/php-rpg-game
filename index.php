@@ -14,30 +14,30 @@ $engine = new Engine;
 
 
 
-$palyerOne = new Player($engine->setAtrributes($player->find(1)));
+$playerOne = new Player($engine->setAtrributes($player->find(1)));
 // echo $player->find(1)->name;
 // var_dump($player->find(1));
 // var_dump($opponent->all());
-$palyerTwo = new Opponent($engine->setAtrributes($opponent->find(1)));
+$playerTwo = new Opponent($engine->setAtrributes($opponent->find(1)));
 
 echo "My hero <br>";
-echo "name $palyerOne->name <br>";
-echo "level $palyerOne->level <br>";
-echo "health $palyerOne->health <br>";
-echo "strength $palyerOne->strength <br>";
-echo "defence $palyerOne->defence <br>";
-echo "speed $palyerOne->speed <br>";
-echo "luck $palyerOne->luck% <br>";
+echo "name $playerOne->name <br>";
+echo "level $playerOne->level <br>";
+echo "health $playerOne->health <br>";
+echo "strength $playerOne->strength <br>";
+echo "defence $playerOne->defence <br>";
+echo "speed $playerOne->speed <br>";
+echo "luck $playerOne->luck% <br>";
 echo "<br>";
 echo "Monster <br>";
-echo "name $palyerTwo->name <br>";
-echo "level $palyerTwo->level <br>";
-echo "health $palyerTwo->health <br>";
-echo "strength $palyerTwo->strength <br>";
-echo "defence $palyerTwo->defence <br>";
-echo "speed $palyerTwo->speed <br>";
-echo "luck $palyerTwo->luck% <br>";
+echo "name $playerTwo->name <br>";
+echo "level $playerTwo->level <br>";
+echo "health $playerTwo->health <br>";
+echo "strength $playerTwo->strength <br>";
+echo "defence $playerTwo->defence <br>";
+echo "speed $playerTwo->speed <br>";
+echo "luck $playerTwo->luck% <br>";
 echo "<br>";
 
-
+// var_dump($player->all());
 
