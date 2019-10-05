@@ -27,7 +27,7 @@
         }
 
         public function heroDetails($id, $level, $experience, $name, $health, $strength, $defence, $speed, $luck){
-            return (object) [
+            return [
                 'id' => $id,
                 'level' =>  $level,
                 'experience' => $experience,
@@ -40,21 +40,39 @@
             ];
         }
 
+        private function getAttributes($id){
+            $attributes = [];
+            $result = $this->dbClass->queryRun("SELECT * FROM attributes_max_min where subject_type = 'hero' and subject_id=" . $id);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $attributes[$row["subject_attribute"]]  = (object) [
+                        'min' => $row["min"],
+                        'max' => $row["max"],
+                    ];
+                }
+            } else {
+                return [];
+            }
+            return $attributes;
+        }
+
         public function find($id){
             $result = $this->dbClass->queryRun("SELECT * FROM hero where id=" . $id);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    return $this->heroDetails(
+                    $details = $this->heroDetails(
                         $row["id"], 
                         $row["level"], 
-                        $row["experience"], 
+                        $row["experience"],
                         $row["name"], 
                         $row["health"], 
                         $row["strength"], 
                         $row["defence"],  
-                        $row["speed"],
+                        $row["speed"], 
                         $row["luck"]
                     );
+                    $attributes =$this->getAttributes($id);
+                    return (object) array_merge($details, $attributes);
                 }
             } else {
                 return (object) [];
@@ -66,24 +84,25 @@
             $result = $this->dbClass->queryRun("SELECT * FROM hero");
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    array_push(
-                        $resultArray,
-                        $this->heroDetails(
-                            $row["id"], 
-                            $row["level"], 
-                            $row["experience"],
-                            $row["name"], 
-                            $row["health"], 
-                            $row["strength"], 
-                            $row["defence"],  
-                            $row["speed"], 
-                            $row["luck"]
-                        ));
+                    $details = $this->heroDetails(
+                        $row["id"], 
+                        $row["level"], 
+                        $row["experience"],
+                        $row["name"], 
+                        $row["health"], 
+                        $row["strength"], 
+                        $row["defence"],  
+                        $row["speed"], 
+                        $row["luck"]
+                    );
+                    $attributes =$this->getAttributes($row["id"]);
+                    $heroAttributes = array_merge($details, $attributes);
+                    array_push( $resultArray, (object) $heroAttributes );      
                 }
             } else {
-                return $resultArray;
+                return (object) $resultArray;
             }
-            return $resultArray;
+            return (object) $resultArray;
         }
 
     }

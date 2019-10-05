@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 05, 2019 at 07:24 AM
+-- Generation Time: Oct 05, 2019 at 08:05 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -21,6 +21,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `hero_game`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attributes_max_min`
+--
+
+DROP TABLE IF EXISTS `attributes_max_min`;
+CREATE TABLE IF NOT EXISTS `attributes_max_min` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `subject_id` int(11) NOT NULL,
+  `subject_type` varchar(25) NOT NULL,
+  `subject_attribute` varchar(25) NOT NULL,
+  `max` int(11) NOT NULL,
+  `min` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `attributes_max_min`
+--
+
+INSERT INTO `attributes_max_min` (`id`, `subject_id`, `subject_type`, `subject_attribute`, `max`, `min`) VALUES
+(1, 1, 'hero', 'health', 70, 100),
+(2, 1, 'hero', 'strength', 70, 80),
+(3, 1, 'monster', 'health', 70, 100),
+(4, 1, 'monster', 'strength', 70, 80);
 
 -- --------------------------------------------------------
 
