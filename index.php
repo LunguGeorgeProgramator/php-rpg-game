@@ -39,5 +39,23 @@ echo "speed $playerTwo->speed <br>";
 echo "luck $playerTwo->luck% <br>";
 echo "<br>";
 
+echo (20 / 100) * 100;
+
+$engine->fight($playerOne, $playerTwo);
 // var_dump($player->all());
+
+
+
+// var_dump($engine->calculateChance($playerOne->luck));
+// var_dump($engine->calculateChance($playerTwo->luck));
+
+// $rand1 = rand(0, 20);
+// $rand2 = rand(0, 100);
+
+// if ($rand1 >= $rand2){
+//     echo "misss success $rand1 $rand2";
+// }else{
+//     echo "no miss $rand1 $rand2";
+// }
+
 

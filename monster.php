@@ -24,14 +24,12 @@
         }
 
         public function monsterDetails($row, $id){
-            $details = [
+            return (object) array_merge([
                 'id' => $row["id"],
                 'level' =>  $row["level"],
                 'experience' => $row["experience"],
                 'name' =>  $row["name"]
-            ];
-            $attributes =$this->getAttributes($id);
-            return (object) array_merge($details, $attributes);
+            ], $this->getAttributes($id));
         }
 
         private function getAttributes($id){
