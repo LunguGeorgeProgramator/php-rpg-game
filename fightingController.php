@@ -15,53 +15,37 @@ class Fighting {
         return $arrayAttr;
     } 
 
-    public function attack($strength, $defence){
-        return (float) abs($strength - $defence);
-    }
-
     public function calculateChance($luck){
-        if (rand(1,100) <= $luck)
-        // if (rand(0, $luck) >= rand(0, 100))
+        // if (rand(1,100) <= $luck)
+        if (rand(0, $luck) >= rand(0, 100))
             return true; // echo "misss success";
         return false; // echo "no miss";
     }
 
-    public function damage(){
-        
-    }
+    public function fight($playerOne, $playerTwo, $turn){
 
-    public function fight($playerOne, $playerTwo){
-        $playerOnehealth = $playerOne->health;
-        $playerTwohealth = $playerTwo->health;
-        $atackPlayerOne = $this->attack($playerTwo->strength, $playerOne->defence);
-        $atackPlayerTwo = $this->attack($playerTwo->strength, $playerOne->defence);
+        $player1 = ($turn == 1? $playerTwo: $playerOne);
+        $player2 = ($turn == 1? $playerOne: $playerTwo);
 
-        while ($playerOnehealth > 0 && $playerTwohealth > 0) {
-            if(!$this->calculateChance($playerOne->luck)){
-                $damageHero = $playerOnehealth-$atackPlayerTwo;
-                $playerOnehealth = $damageHero;
-                echo "$playerTwo->name hit $playerOne->name, $damageHero damage <br>";
-                if ($playerOnehealth <= 0){
-                    echo "$playerOne->name is dead!!";
-                    break;
-                }
-            }else{
-                echo "$playerTwo->name miss to hit $playerOne->name, 0 damage <br>";
+        $damage = (float) abs($player2->strength - $player1->defence);
+
+        $log = "";
+
+        if ($player1->health <= 0 || $player2->health <= 0){
+            return null;
+        }
+        // while ($playerOne->health > 0 && $playerTwo->health > 0) {
+        if(!$this->calculateChance($player1->luck)){
+            $player1->health = $player1->health - $damage;
+            $log = "$player2->name hit $player1->name, $damage damage. Health remaining ".($player1->health >= 0? $player1->health : 0)." <br>";
+            if ($player1->health <= 0){
+                $player1->health = 0;
+                $log = $log."<br> $player1->name is dead!!";
             }
-            if(!$this->calculateChance($playerTwo->luck)){
-                $damageMonster = $playerTwohealth-$atackPlayerOne;
-                $playerTwohealth = $damageMonster;
-                echo "$playerOne->name hit $playerTwo->name, $damageMonster damage <br>";
-                if ($playerTwohealth <= 0){
-                    echo "$playerTwo->name is dead!!";
-                    break;
-                }
-            }else{
-                echo "$playerOne->name miss to hit $playerOne->name, 0 damage <br>";
-            }
-            echo "hero health $playerOnehealth <br>";
-            echo "monster health $playerTwohealth <br>";
+        }else{
+            $log = "$player2->name miss to hit $player1->name, 0 damage. Health remaining $player1->health <br>";
         }
 
+        return array($log, $player1, $player2);
     }
 }
