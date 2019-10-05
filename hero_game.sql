@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 05, 2019 at 08:05 AM
+-- Generation Time: Oct 05, 2019 at 03:54 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `attributes_max_min` (
   `max` int(11) NOT NULL,
   `min` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `attributes_max_min`
@@ -46,8 +46,19 @@ CREATE TABLE IF NOT EXISTS `attributes_max_min` (
 INSERT INTO `attributes_max_min` (`id`, `subject_id`, `subject_type`, `subject_attribute`, `max`, `min`) VALUES
 (1, 1, 'hero', 'health', 70, 100),
 (2, 1, 'hero', 'strength', 70, 80),
-(3, 1, 'monster', 'health', 70, 100),
-(4, 1, 'monster', 'strength', 70, 80);
+(6, 1, 'hero', 'defence', 45, 50),
+(16, 2, 'monster', 'strength', 60, 90),
+(7, 1, 'hero', 'speed', 40, 50),
+(8, 1, 'hero', 'luck', 10, 30),
+(9, 1, 'monster', 'health', 60, 90),
+(10, 1, 'monster', 'strength', 60, 90),
+(11, 1, 'monster', 'defence', 40, 60),
+(15, 2, 'monster', 'health', 60, 90),
+(13, 1, 'monster', 'speed', 40, 60),
+(14, 1, 'monster', 'luck', 25, 40),
+(17, 2, 'monster', 'defence', 40, 60),
+(18, 2, 'monster', 'speed', 40, 60),
+(19, 2, 'monster', 'luck', 25, 40);
 
 -- --------------------------------------------------------
 
@@ -60,20 +71,15 @@ CREATE TABLE IF NOT EXISTS `hero` (
   `id` int(11) NOT NULL,
   `level` int(11) NOT NULL,
   `experience` float NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `health` int(11) NOT NULL,
-  `strength` int(11) NOT NULL,
-  `defence` int(11) NOT NULL,
-  `speed` int(11) NOT NULL,
-  `luck` float NOT NULL
+  `name` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `hero`
 --
 
-INSERT INTO `hero` (`id`, `level`, `experience`, `name`, `health`, `strength`, `defence`, `speed`, `luck`) VALUES
-(1, 5, 1100.4, 'Orderus', 70, 70, 45, 40, 10);
+INSERT INTO `hero` (`id`, `level`, `experience`, `name`) VALUES
+(1, 5, 1100.4, 'Orderus');
 
 -- --------------------------------------------------------
 
@@ -87,11 +93,6 @@ CREATE TABLE IF NOT EXISTS `monsters` (
   `level` int(11) NOT NULL,
   `experience` float NOT NULL,
   `name` varchar(255) NOT NULL,
-  `health` int(11) NOT NULL,
-  `strength` int(11) NOT NULL,
-  `defence` int(11) NOT NULL,
-  `speed` int(11) NOT NULL,
-  `luck` float NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
@@ -99,9 +100,9 @@ CREATE TABLE IF NOT EXISTS `monsters` (
 -- Dumping data for table `monsters`
 --
 
-INSERT INTO `monsters` (`id`, `level`, `experience`, `name`, `health`, `strength`, `defence`, `speed`, `luck`) VALUES
-(1, 7, 200.4, 'Wild dog', 60, 60, 40, 40, 25),
-(2, 8, 500.1, 'Wild boar\r\n', 65, 60, 45, 40, 25);
+INSERT INTO `monsters` (`id`, `level`, `experience`, `name`) VALUES
+(1, 7, 200.4, 'Wild dog'),
+(2, 8, 500.1, 'Wild boar\r\n');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
