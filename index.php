@@ -41,7 +41,7 @@ if(!isset($_POST['attack'])){
     }
     $_SESSION['turn_to_attack'] = ($_SESSION['turn_to_attack'] == 0 ? 1 : 0);
 }
-
+echo "Truns remaining: ". $_SESSION['turns_remaining']. "<br>";
 echo "My hero <br>";
 echo "name $playerOne->name <br>";
 echo "level $playerOne->level <br>";
