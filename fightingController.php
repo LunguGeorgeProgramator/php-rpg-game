@@ -83,7 +83,6 @@ class Fighting {
         // echo 'The attacker '.$player2->name;
         // var_dump($defenceSkillP2);
         
-        
         if($attackSkillP1 && $attackSkillP1->skill_chance){
             $newDefence = ((float) $player1->defence / (float) $attackSkillP1->skill_multiplier);
             $log = "$player1->name activate defence skill '$attackSkillP1->skill_name', defence up to $newDefence <br>";
