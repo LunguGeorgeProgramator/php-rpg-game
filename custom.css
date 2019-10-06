@@ -1,0 +1,28 @@
+.clearfix:after {
+    content: " "; 
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+ }
+ 
+ #first, #second{
+   box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+ }
+ 
+ #wrapper {
+     width: 500px;
+     border: 1px solid black;
+ }
+ #first {
+     border: 1px solid red;
+     float:left;
+     width:50%;
+ }
+ #second {
+     border: 1px solid green;
+     float:left;
+     width:50%;
+ }

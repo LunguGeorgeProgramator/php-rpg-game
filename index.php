@@ -1,3 +1,4 @@
+<LINK REL=StyleSheet HREF="custom.css" TITLE="Contemporary">
 <?php
 session_start();
 include 'mainModel.php';
@@ -47,6 +48,8 @@ if(!isset($_POST['attack'])){
     $_SESSION['turn_to_attack'] = ($_SESSION['turn_to_attack'] == 0 ? 1 : 0);
 }
 echo "Truns remaining: ". $_SESSION['turns_remaining']. "<br>";
+echo "<div id='wrapper'>";
+echo "<div id='first'>";
 echo "My hero <br>";
 echo "name $playerOne->name <br>";
 echo "level $playerOne->level <br>";
@@ -56,7 +59,8 @@ echo "defence $playerOne->defence <br>";
 echo "speed $playerOne->speed <br>";
 echo "luck $playerOne->luck% <br>";
 echo "<br>";
-
+echo "</div>";
+echo "<div id='second'>";
 echo "Monster <br>";
 echo "name $playerTwo->name <br>";
 echo "level $playerTwo->level <br>";
@@ -66,14 +70,19 @@ echo "defence $playerTwo->defence <br>";
 echo "speed $playerTwo->speed <br>";
 echo "luck $playerTwo->luck% <br>";
 echo "<br>";
-
+echo "</div>";
+echo "</div>";
 ?>
-    <form method="POST">
+<div style="clear:both"></div>
+    <form method="POST" style="float: left">
         <input type="submit" name="attack" value="Next turn.">
     </form>
-    <form method="GET">
+    <form method="GET" style="float: left">
         <input type="submit" value="New battle">
     </form>
+<div style="clear:both"></div>
+Click this button "Next Turn" to start the battle, click it until the battle is over or the turns reach 0.
+Or click the button "New Battle" for a new match.
     <h2>Battle logs:</h2>
 <?php
 
