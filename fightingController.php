@@ -1,6 +1,7 @@
 <?php
 use Hero as Player;
 use Monster as Opponent;
+use Skill as Skill;
 
 class Fighting {
 
@@ -32,26 +33,26 @@ class Fighting {
         return (object) [
             'skill_chance' => $this->calculateChance($value->skill_chance),
             'skill_name' => $value->name,
-            'skill_multiplier' => $value->number_strikes
+            'skill_multiplier' => $value->number_strikes,
+            // 'skill_type' => $value->subject_type
         ];
     }
 
     public function skillsStrike($skills){
-        
         $strikes = null;
         $defence = null;
         $strikesMax = [];
         $defenceMax = [];
         foreach(['attack', 'defence'] as $setType){
             foreach($skills as $value){
-                if($value->skill_type == $setType && $value->active == 1){
+                if($value->skill_type == $setType){
                     if($setType == 'attack'){
                         $newchance = rand(0, $value->skill_chance);
                         array_push($strikesMax, $newchance);
                         if($strikesMax && max($strikesMax) <= $newchance){
                             $strikes = $this->setArraySkill($value); 
                         }
-                    }else {
+                    }else{
                         $newchance = rand(0, $value->skill_chance);
                         array_push($defenceMax, $newchance);
                         if($defenceMax && max($defenceMax) <= $newchance){
@@ -61,51 +62,60 @@ class Fighting {
                 }
             }
         }
-        return [$defence, $strikes];
+        return [$strikes, $defence];
     }
 
     public function fight($playerOne, $playerTwo, $turn, $turn_count){
-
-
         $player1 = ($turn == 1? $playerTwo: $playerOne);
         $player2 = ($turn == 1? $playerOne: $playerTwo);
 
+        $skillsListP1 = $this->skills->relation($player1->id, strtolower(get_class($player1)));
         $skillsListP2 = $this->skills->relation($player2->id, strtolower(get_class($player2)));
-        $skillsListP1 = $this->skills->relation($player2->id, strtolower(get_class($player2)));
+        
+        $skillsSetP1 = $this->skillsStrike($skillsListP1);
+        $skillsSetP2 = $this->skillsStrike($skillsListP2);
 
-        var_dump(strtolower(get_class($player1)));
-        // var_dump($skillsList);
+        $attackSkillP1 = $skillsSetP1[1];
+        $defenceSkillP2 = $skillsSetP2[0];
 
-        $skillsSetP1 = $this->skillsStrike($skillsListP2);
-        $skillsSetP2 = $this->skillsStrike($skillsListP1);
+        // echo 'In defence '.$player1->name;
+        // var_dump($attackSkillP1);
+        // echo 'The attacker '.$player2->name;
+        // var_dump($defenceSkillP2);
+        
+        
+        if($attackSkillP1 && $attackSkillP1->skill_chance){
+            $newDefence = ((float) $player1->defence / (float) $attackSkillP1->skill_multiplier);
+            $log = "$player1->name activate defence skill '$attackSkillP1->skill_name', defence up to $newDefence <br>";
+        }else{
+            $newDefence = $player1->defence;
+            $log = "";
+        }
 
-        $defenceSkillP2 = $skillsSetP1[0];
-        $attackSkillP1 = $skillsSetP2[1];
-
-        $damage = (float) abs($player2->strength - $player1->defence);
-        $log = "";
+        $damage = (float) abs($player2->strength - $newDefence);
         if ($player1->health <= 0 || $player2->health <= 0){
             return null;
         }
-        var_dump($attackSkillP1->skill_chance);
-        // while ($playerOne->health > 0 && $playerTwo->health > 0) {
+
         if(!$this->calculateChance($player1->luck)){
-            if($attackSkillP1->skill_chance){
-                $newDamage = ($damage * $attackSkillP1->skill_multiplier);
+            if($defenceSkillP2 && $defenceSkillP2->skill_chance){
+                $newDamage = ($damage * $defenceSkillP2->skill_multiplier);
                 $player1->health = $player1->health - $newDamage;
-                $log = "$player2->name used skill $attackSkillP1->skill_name on $player1->name, $newDamage  damage. Health remaining ".($player1->health >= 0? $player1->health : 0)." <br>";    
+                $log = "$log $player2->name used skill $defenceSkillP2->skill_name on $player1->name, $newDamage  damage. Health remaining ".($player1->health >= 0? $player1->health : 0)." <br>";    
             }else{
                 $player1->health = $player1->health - $damage;
-                $log = "$player2->name hit $player1->name, $damage damage. Health remaining ".($player1->health >= 0? $player1->health : 0)." <br>";
+                $log = "$log $player2->name hit $player1->name, $damage damage. Health remaining ".($player1->health >= 0? $player1->health : 0)." <br>";
             }
             if ($player1->health <= 0){
                 $player1->health = 0;
                 $log = $log."<br> $player1->name is dead!!";
             }
         }else{
-            $log = "$player2->name miss to hit $player1->name, 0 damage. Health remaining $player1->health <br>";
+            $log = "$log $player2->name miss to hit $player1->name, 0 damage. Health remaining $player1->health <br>";
         }
+
         $_SESSION['turns_remaining']--;
+
         if( $turn_count <= 0 ){
             $log = "No more turns, reached the limit of 20";
             $player1->health = 0;

@@ -34,6 +34,9 @@
             $results = [];
             foreach(parent::all() as $entry){
                 if ($entry->subject_id == $id && $entry->subject_type == $player){
+                    if($entry->active == 0){
+                        continue;
+                    }
                     array_push($results, $entry);
                 }
             }
