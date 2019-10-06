@@ -21,7 +21,7 @@ $skills = new Skill;
 // var_dump($opponent->all());
 // var_dump($player->all());
 
-var_dump($skills->all());
+// var_dump($skills->relation(1, 'hero'));
 
 if(!isset($_POST['attack'])){
     $_SESSION['array_logs'] = [];
@@ -37,6 +37,7 @@ if(!isset($_POST['attack'])){
 }else{
     $playerOne = unserialize($_SESSION['playerOne']);
     $playerTwo = unserialize($_SESSION['playerTwo']);
+    // var_dump(strtolower(get_class($playerOne)));
     $log = $engine->fight($playerOne, $playerTwo, $_SESSION['turn_to_attack'], $_SESSION['turns_remaining']);
     if ($log[0] != null){
         if($log[1])

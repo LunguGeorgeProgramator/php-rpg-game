@@ -30,4 +30,14 @@
             ];
         }
 
+        public function relation($id, $player){
+            $results = [];
+            foreach(parent::all() as $entry){
+                if ($entry->subject_id == $id && $entry->subject_type == $player){
+                    array_push($results, $entry);
+                }
+            }
+            return (object) $results;
+        }
+
     }
