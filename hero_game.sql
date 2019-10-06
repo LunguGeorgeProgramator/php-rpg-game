@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 05, 2019 at 03:54 PM
+-- Generation Time: Oct 06, 2019 at 03:45 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -84,11 +84,11 @@ INSERT INTO `hero` (`id`, `level`, `experience`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `monsters`
+-- Table structure for table `monster`
 --
 
-DROP TABLE IF EXISTS `monsters`;
-CREATE TABLE IF NOT EXISTS `monsters` (
+DROP TABLE IF EXISTS `monster`;
+CREATE TABLE IF NOT EXISTS `monster` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `level` int(11) NOT NULL,
   `experience` float NOT NULL,
@@ -97,12 +97,42 @@ CREATE TABLE IF NOT EXISTS `monsters` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `monsters`
+-- Dumping data for table `monster`
 --
 
-INSERT INTO `monsters` (`id`, `level`, `experience`, `name`) VALUES
+INSERT INTO `monster` (`id`, `level`, `experience`, `name`) VALUES
 (1, 7, 200.4, 'Wild dog'),
 (2, 8, 500.1, 'Wild boar\r\n');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skill`
+--
+
+DROP TABLE IF EXISTS `skill`;
+CREATE TABLE IF NOT EXISTS `skill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `subject_id` int(11) NOT NULL,
+  `subject_type` enum('hero','monster') NOT NULL,
+  `skill_type` enum('attack','defence') NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `skill_chance` float NOT NULL,
+  `number_strikes` float NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `skill`
+--
+
+INSERT INTO `skill` (`id`, `subject_id`, `subject_type`, `skill_type`, `name`, `skill_chance`, `number_strikes`, `active`) VALUES
+(1, 1, 'hero', 'attack', 'Rapid strike', 10, 2, 1),
+(2, 1, 'hero', 'defence', 'Magic shield', 20, 0.5, 1),
+(3, 1, 'monster', 'attack', 'Rapid strike', 10, 2, 0),
+(4, 1, 'monster', 'defence', 'Magic shield', 20, 0.5, 0),
+(5, 1, 'hero', 'attack', 'Rapid strike X3', 5, 3, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
