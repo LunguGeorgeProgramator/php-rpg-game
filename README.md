@@ -18,3 +18,5 @@ and install phpmyadmin and set a new database settings:
 To run test just run command, ex:
 
 vendor\bin\phpunit --bootstrap vendor\autoload.php tests\HeroTest
+
+This is a mini game (text base/ logs) that has at his core a player that battles monsters, all the actions are based in a text display fashion.
